@@ -47,6 +47,6 @@ global $pdo;
 try {
     $pdo = new PDO($dsn, $username, $password, $option);
 } catch (PDOException $e) {
-    error_log("Database connection failed: " . $e->getMessage());
+    die("Database connection failed: " . $e->getMessage());
     die("Database connection failed. Please try again later.");
 }
