@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($product['name']) ?> - Product Details</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <link rel="stylesheet" href="../assets/css/output.css">
+    <link rel="stylesheet" href="../assets/css/fontawesome/all.min.css">
+    <link rel="stylesheet" href="../assets/css/fontawesome/fontawesome.min.css">
     <link rel="icon" href="../assets/logo/logo1.ico" type="image/x-icon">
     <style>
         .carousel-container {
@@ -40,8 +43,13 @@
 
     </style>
 </head>
-<body class="bg-gray-50">
+
+<body class="w-full h-screen bg-gray-50">
+    <div class="w-full">
+        <?php require_once '../includes/navbar.php' ?>
+    </div>
     <div class="max-w-7xl mx-auto p-4 md:p-8">
+
         <!-- Breadcrumb Navigation -->
         <nav class="flex mb-6" aria-label="Breadcrumb">
             <ol class="inline-flex items-center space-x-1 md:space-x-3">
@@ -175,13 +183,13 @@
                 
                 <!-- Action Buttons -->
                 <div class="flex gap-3 pt-4">
-                    <button class="flex-1 bg-[#fc8eac] text-white px-6 py-3 rounded-lg hover:bg-[#e47a98] font-medium">
+                    <button class="flex-1 bg-[#fc8eac] text-white px-2 py-3 rounded-lg hover:bg-[#e47a98] font-medium">
                         Buy Now
                     </button>
                     <form method="post" action="cart.php" class="flex-1">
                         <input type="hidden" name="idproduct" value="<?= $id ?>">
                         <input type="hidden" name="quantity" id="formQuantity" value="1">
-                        <button type="submit" name="add_to_cart" class="w-full border border-[#fc8eac] text-[#fc8eac] px-6 py-3 rounded-lg hover:bg-[#fc8eac] hover:text-white font-medium">
+                        <button type="submit" name="add_to_cart" class="w-full border border-[#fc8eac] text-[#fc8eac] px-2 py-3 rounded-lg hover:bg-[#fc8eac] hover:text-white font-medium">
                             Add to Cart
                         </button>
                     </form>
@@ -206,7 +214,7 @@
         </div>
     </div>
 
-    <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+<div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
     <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4 shadow-xl">
         <div class="flex justify-between items-start mb-4">
             <h3 class="text-xl font-bold text-gray-800">Confirm Deletion</h3>
@@ -222,10 +230,10 @@
         </div>
         
         <div class="flex justify-end space-x-3">
-            <button onclick="hideDeleteModal()" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition">
+            <button type="button" onclick="hideDeleteModal()" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition">
                 Cancel
             </button>
-            <button onclick="proceedWithDeletion()" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition">
+            <button type="button" onclick="proceedWithDeletion()" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition">
                 Delete
             </button>
         </div>
@@ -330,15 +338,29 @@
         document.getElementById('deleteModal').classList.add('hidden');
     }
     
-    function proceedWithDeletion() {
-        window.location.href = 'delete_product.php?id=<?= $id ?>';
-    }
+function proceedWithDeletion() {
+    // Create a form dynamically
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'product_view.php?id=<?= $id ?>';
     
-    // Update your delete button to use showDeleteModal instead of confirmDelete
-    document.querySelector('[onclick="confirmDelete()"]').onclick = showDeleteModal;
+    // Add the delete_product input
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'delete_product';
+    input.value = '1';
+    
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+}
+
+// Update the delete button to use showDeleteModal
+document.querySelector('[onclick="confirmDelete()"]').onclick = showDeleteModal;
         
         // Initialize carousel
         updateCarousel();
     </script>
 </body>
 </html>
+<?php include '../includes/footer.php'; ?>
