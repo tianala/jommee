@@ -54,8 +54,11 @@ $all_images = prepareProductImages($product);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit <?= htmlspecialchars($product['name']) ?> - Product Management</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <link rel="icon" href="../assets/logo/logo1.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/css/output.css">
+    <link rel="stylesheet" href="../assets/css/fontawesome/all.min.css">
+    <link rel="stylesheet" href="../assets/css/fontawesome/fontawesome.min.css">
     <style>
         .carousel-container {
             scroll-snap-type: x mandatory;
@@ -80,6 +83,9 @@ $all_images = prepareProductImages($product);
     </style>
 </head>
 <body class="bg-gray-50">
+          <div class="w-full">
+        <?php require_once '../includes/navbar.php' ?>
+    </div>
     <div class="max-w-7xl mx-auto p-4 md:p-8">
         <?php displayBreadcrumbs($product['name']); ?>
 
@@ -102,3 +108,4 @@ $all_images = prepareProductImages($product);
     <?php displayCarouselScript(); ?>
 </body>
 </html>
+<?php include '../includes/footer.php'; ?>

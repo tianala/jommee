@@ -6,9 +6,16 @@
     <title>Your Shopping Cart</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="icon" href="../assets/logo/logo1.ico" type="image/x-icon">
+    <link rel="icon" href="../assets/logo/logo1.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../assets/css/output.css">
+    <link rel="stylesheet" href="../../assets/css/fontawesome/all.min.css">
+    <link rel="stylesheet" href="../../assets/css/fontawesome/fontawesome.min.css">
+
 </head>
 <body class="bg-gray-50">
+    <div class="w-full">
+        <?php require_once '../includes/navbar.php' ?>
+    </div>
     
     <div class="container mx-auto px-4 py-8">
         
@@ -34,15 +41,15 @@
                         <?php foreach ($cartItems as $item): ?>
                             <div class="grid grid-cols-12 p-4 border-b items-center cart-item" data-id="<?= $item['idcart'] ?>">
                                 <!-- Selector -->
-<div class="flex items-start gap-2 md:col-span-1 md:justify-center mb-2 md:mb-0">
-    <label class="inline-flex items-center">
+<div class="flex items-start gap-2 md:col-span-1 md:justify-center mb-2 md:mb-0 col-span-12 md:col-span-1">
+    <label class="inline-flex items-center ml-4 md:ml-0">
         <input 
             type="checkbox" 
             class="item-selector h-5 w-5 rounded accent-[#fc8eac] border-gray-300 focus:ring-[#fc8eac] focus:ring-offset-0 focus:ring-2 cursor-pointer" 
             onchange="updateOrderSummary()"
         >
     </label>
-</div>      
+</div>     
                                 <!-- Product Info - Mobile Stacked Layout -->
                                 <div class="col-span-12 md:col-span-5 flex flex-col md:flex-row items-start md:items-center space-y-2 md:space-y-0">
                                     <div class="flex items-center w-full md:w-auto">
@@ -74,25 +81,26 @@
                                 </div>
                                 
                                 <!-- Quantity -->
-                                <div class="col-span-6 md:col-span-3 mt-2 md:mt-0">
-                                    <div class="flex items-center justify-between md:justify-center">
-                                        <span class="md:hidden text-sm text-gray-500">Qty:</span>
-                                        <form method="POST" class="flex items-center">
-                                            <input type="hidden" name="idcart" value="<?= $item['idcart'] ?>">
-                                            <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown(); this.parentNode.submit()" 
-                                                    class="bg-gray-200 px-2 py-1 rounded-l-lg hover:bg-gray-300 transition text-sm md:text-base">
-                                                -
-                                            </button>
-                                            <input type="number" name="quantity" value="<?= $item['quantity'] ?>" min="1" 
-                                                   class="w-10 md:w-12 text-center border-t border-b border-gray-200 py-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none item-quantity text-sm md:text-base"
-                                                   onchange="this.form.submit(); updateOrderSummary()">
-                                            <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp(); this.parentNode.submit()" 
-                                                    class="bg-gray-200 px-2 py-1 rounded-r-lg hover:bg-gray-300 transition text-sm md:text-base">
-                                                +
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
+<!-- Replace the quantity section with this: -->
+<div class="col-span-6 md:col-span-3 mt-2 md:mt-0">
+    <div class="flex items-center justify-between md:justify-center">
+        <span class="md:hidden text-sm text-gray-500">Qty:</span>
+        <form method="POST" action="cart.php" class="flex items-center">
+            <input type="hidden" name="idcart" value="<?= $item['idcart'] ?>">
+            <input type="hidden" name="update_quantity" value="1">
+            <button type="button" onclick="updateQuantity(this, -1)" 
+                    class="bg-gray-200 px-2 py-1 rounded-l-lg hover:bg-gray-300 transition text-sm md:text-base">
+                -
+            </button>
+            <input type="number" name="quantity" value="<?= $item['quantity'] ?>" min="1" 
+                   class="w-10 md:w-12 text-center border-t border-b border-gray-200 py-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none item-quantity text-sm md:text-base">
+            <button type="button" onclick="updateQuantity(this, 1)" 
+                    class="bg-gray-200 px-2 py-1 rounded-r-lg hover:bg-gray-300 transition text-sm md:text-base">
+                +
+            </button>
+        </form>
+    </div>
+</div>
                                 
                                 <!-- Remove -->
                                 <div class="col-span-6 md:col-span-1 mt-2 md:mt-0 flex justify-end md:justify-center">
@@ -144,55 +152,54 @@
         <?php endif; ?>
     </div>
 
-    <script>
-        // Update order summary when items are selected
-        function updateOrderSummary() {
-            let subtotal = 0;
-            
-            document.querySelectorAll('.cart-item').forEach(item => {
-                const checkbox = item.querySelector('.item-selector');
-                if (checkbox.checked) {
-                    const price = parseFloat(item.querySelector('.item-price').dataset.price);
-                    const quantity = parseInt(item.querySelector('.item-quantity').value);
-                    subtotal += price * quantity;
-                }
-            });
-            
-            document.getElementById('order-subtotal').textContent = `₱${subtotal.toFixed(2)}`;
-            document.getElementById('order-total').textContent = `₱${subtotal.toFixed(2)}`;
-        }
-
-        // Initialize event listeners
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.item-selector').forEach(checkbox => {
-                checkbox.addEventListener('change', updateOrderSummary);
-            });
-            
-            document.querySelectorAll('.item-quantity').forEach(input => {
-                input.addEventListener('change', updateOrderSummary);
-            });
-            
-            // Initial calculation
-            updateOrderSummary();
-        });
-
-        function incrementQuantity(button) {
-    const form = button.parentElement;
-    const quantityInput = form.querySelector('input[name="quantity"]');
-    quantityInput.stepUp();
-    form.submit();
-    updateOrderSummary();
-}
-
-function decrementQuantity(button) {
-    const form = button.parentElement;
-    const quantityInput = form.querySelector('input[name="quantity"]');
-    if (parseInt(quantityInput.value) > 1) {
-        quantityInput.stepDown();
+<script>
+    // Update quantity function
+    function updateQuantity(button, change) {
+        const form = button.closest('form');
+        const quantityInput = form.querySelector('input[name="quantity"]');
+        let newQuantity = parseInt(quantityInput.value) + change;
+        
+        // Ensure quantity doesn't go below 1
+        if (newQuantity < 1) newQuantity = 1;
+        
+        quantityInput.value = newQuantity;
         form.submit();
-        updateOrderSummary();
     }
-}
-    </script>
+
+    // Update order summary when items are selected
+    function updateOrderSummary() {
+        let subtotal = 0;
+        
+        document.querySelectorAll('.cart-item').forEach(item => {
+            const checkbox = item.querySelector('.item-selector');
+            if (checkbox.checked) {
+                const price = parseFloat(item.querySelector('.item-price').dataset.price);
+                const quantity = parseInt(item.querySelector('.item-quantity').value);
+                subtotal += price * quantity;
+            }
+        });
+        
+        document.getElementById('order-subtotal').textContent = `₱${subtotal.toFixed(2)}`;
+        document.getElementById('order-total').textContent = `₱${subtotal.toFixed(2)}`;
+    }
+
+    // Initialize event listeners
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.item-selector').forEach(checkbox => {
+            checkbox.addEventListener('change', updateOrderSummary);
+        });
+        
+        document.querySelectorAll('.item-quantity').forEach(input => {
+            input.addEventListener('change', function() {
+                this.closest('form').submit();
+            });
+        });
+        
+        // Initial calculation
+        updateOrderSummary();
+    });
+</script>
+
 </body>
 </html>
+<?php include '../includes/footer.php'; ?>

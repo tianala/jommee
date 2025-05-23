@@ -7,9 +7,16 @@
   <title>Product Management</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link href="/public/assets/css/output.css" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
   <link rel="icon" href="../assets/logo/logo1.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../assets/css/output.css">
+  <link rel="stylesheet" href="../assets/css/fontawesome/all.min.css">
+  <link rel="stylesheet" href="../assets/css/fontawesome/fontawesome.min.css">
+  
 </head>
+      <div class="w-full">
+        <?php require_once '../includes/navbar.php' ?>
+    </div>
 <body class="bg-gray-50 p-6">
 
   <div class="flex justify-end items-center mt-6 mr-3">
@@ -314,4 +321,5 @@ function openDeleteModal(id, name) {
   </script>
 </body>
 </html>
+<?php include '../includes/footer.php'; ?>
 <?php } ?>
