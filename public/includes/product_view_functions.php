@@ -7,7 +7,9 @@ function getProductById($pdo, $id) {
 
 function prepareProductImages($product) {
     $all_images = [];
-    $all_images[] = base64_encode($product['main_img']); // Main image first
+    if (!empty($product['main_img'])) {
+        $all_images[] = base64_encode($product['main_img']);
+    }
     
     for ($i = 1; $i <= 4; $i++) {
         $img_key = 'img'.$i;
@@ -17,5 +19,16 @@ function prepareProductImages($product) {
     }
     
     return $all_images;
+}
+
+function deleteProduct($pdo, $id) {
+    try {
+        $stmt = $pdo->prepare("DELETE FROM product WHERE idproduct = ?");
+        $stmt->execute([$id]);
+        return $stmt->rowCount() > 0;
+    } catch (PDOException $e) {
+        error_log("Error deleting product: " . $e->getMessage());
+        return false;
+    }
 }
 ?>
