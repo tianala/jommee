@@ -4,9 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact Us</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
   <link rel="icon" href="../assets/logo/logo1.ico" type="image/x-icon">
-  <style>
+    <link rel="stylesheet" href="../assets/css/output.css">
+    <link rel="stylesheet" href="../assets/css/fontawesome/all.min.css">
+    <link rel="stylesheet" href="../assets/css/fontawesome/fontawesome.min.css">
+  <style> 
     @media (max-width: 640px) {
       .contact-section {
         padding: 2rem 1rem;
@@ -17,6 +20,9 @@
     }
   </style>
 </head>
+          <div class="w-full">
+        <?php require_once '../includes/navbar.php' ?>
+    </div>
 <body class="bg-gray-50 text-gray-800">
   <!-- Main Container -->
   <div class="max-w-7xl mx-auto contact-section px-4 py-12 md:py-20 flex flex-col md:flex-row items-start gap-8 md:gap-12">
@@ -42,7 +48,7 @@
           </div>
           <div>
             <p class="font-bold text-lg text-gray-800">Our Location</p>
-            <p class="text-gray-600">99 S.t Jomblo Park Pekanbaru<br>28292. Indonesia</p>
+            <p class="text-gray-600">PSU Road, Tiniguiban Heights<br>5300. Philippines</p>
           </div>
         </div>
 
@@ -55,7 +61,7 @@
           </div>
           <div>
             <p class="font-bold text-lg text-gray-800">Phone Number</p>
-            <p class="text-gray-600">(+62)81 414 257 9980</p>
+            <p class="text-gray-600">(+63)91 2345 6790</p>
           </div>
         </div>
 
@@ -68,7 +74,7 @@
           </div>
           <div>
             <p class="font-bold text-lg text-gray-800">Email Address</p>
-            <p class="text-gray-600">info@yourdomain.com</p>
+            <p class="text-gray-600">info@jommee.com</p>
           </div>
         </div>
       </div>
@@ -123,3 +129,5 @@
   </div>
 </body>
 </html>
+
+<?php include '../includes/footer.php' ?>

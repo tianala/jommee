@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Confirmation</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-      <link rel="icon" href="../assets/logo/logo1.ico" type="image/x-icon">
+    <link rel="icon" href="../assets/logo/logo1.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/css/output.css">
+    <link rel="stylesheet" href="../assets/css/fontawesome/all.min.css">
+    <link rel="stylesheet" href="../assets/css/fontawesome/fontawesome.min.css">
     <script>
         tailwind.config = {
             theme: {
@@ -21,9 +24,12 @@
         }
     </script>
 </head>
-<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4 xs:p-6">
+          <div class="w-full">
+        <?php require_once '../includes/navbar.php' ?>
+    </div>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4 xs:p-6">
     <!-- Responsive container -->
-    <div class="w-full max-w-3xl mx-auto bg-white p-6 sm:p-8 rounded-xl shadow-xl text-center">
+    <div class="w-full max-w-2xl max-h-xl mx-auto bg-white p-6 sm:p-8 rounded-xl shadow-lg text-center mb-10">
         
         <!-- Responsive image -->
         <div class="mb-6 sm:mb-8 flex justify-center">
@@ -40,15 +46,16 @@
             </p>
         </div>
         
-        <!-- Responsive buttons -->
-        <div class="flex flex-col xs:flex-row gap-3 sm:gap-4 justify-center px-2 sm:px-3 py-2">
-            <a href="/" class="w-full xs:w-auto px-5 py-2.5 sm:px-6 sm:py-3 bg-[#fc8eac] hover:bg-[#e75480] text-white rounded-lg transition text-sm sm:text-base font-medium">
-                Homepage
-            </a>
-            <a href="contact.php" class="w-full xs:w-auto px-5 py-2.5 sm:px-6 sm:py-3 text-[#fc8eac] hover:text-[#e75480] border border-[#fc8eac] hover:border-[#e75480] rounded-lg transition text-sm sm:text-base font-medium">
-                Contact
-            </a>
-        </div>
+<div class="flex flex-col md:flex-row gap-3 sm:gap-4 justify-center px-2 sm:px-3 py-2">
+    <a href="/" class="w-full md:w-auto px-5 py-2.5 sm:px-6 sm:py-3 bg-[#fc8eac] hover:bg-[#e75480] text-white rounded-lg transition text-sm sm:text-base font-medium">
+        Homepage
+    </a>
+    <a href="contact.php" class="w-full md:w-auto px-5 py-2.5 sm:px-6 sm:py-3 text-[#fc8eac] hover:text-[#e75480] border border-[#fc8eac] hover:border-[#e75480] rounded-lg transition text-sm sm:text-base font-medium">
+        Contact
+    </a>
+</div>
     </div>
 </body>
 </html>
+
+<?php include '../includes/footer.php'; ?>
