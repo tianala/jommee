@@ -16,7 +16,7 @@
     <div class="w-full md:w-auto flex justify-between items-center">
       <div class="flex items-center text-xl font-bold text-white">
         <img src="../assets/logo/logo1.png" alt="Logo" class="w-10 h-10 md:w-12 md:h-12" />
-        <span class="-ml-2 font-[Palatino]">ommee</span>
+        <span class="-ml-2 font-[TREBUCHET MS]">OMMEE</span>
       </div>
       
       <!-- Mobile Menu Button (Hamburger) -->
