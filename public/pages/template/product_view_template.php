@@ -136,12 +136,12 @@
                 <?php if (count($all_images) > 1): ?>
                 <div class="grid grid-cols-5 gap-2 mt-4">
                     <?php foreach ($all_images as $index => $image): ?>
-                    <div class="cursor-pointer <?= $index === 0 ? 'border-2 border-[#fc8eac]' : 'hover:border-2 hover:border-[#fc8eac]' ?> rounded-lg transition">
-                        <img src="data:image/jpeg;base64,<?= $image ?>" 
-                             alt="Thumbnail <?= $index + 1 ?>" 
-                             class="w-full h-full object-cover rounded-md"
-                             onclick="goToSlide(<?= $index ?>)">
-                    </div>
+<div class="cursor-pointer thumbnail-container <?= $index === 0 ? 'border-2 border-[#fc8eac]' : 'hover:border-2 hover:border-[#fc8eac]' ?> rounded-lg transition">
+    <img src="data:image/jpeg;base64,<?= $image ?>" 
+         alt="Thumbnail <?= $index + 1 ?>" 
+         class="w-full h-full object-cover rounded-md"
+         onclick="goToSlide(<?= $index ?>)">
+</div>
                     <?php endforeach; ?>
                 </div>
                 <?php endif; ?>
@@ -247,16 +247,19 @@
         const indicators = document.querySelectorAll('.carousel-indicator');
         const carousel = document.getElementById('carousel');
         
-        function updateCarousel() {
-            const slideWidth = slides[0].offsetWidth;
-            carousel.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
-            
-            // Update indicators
-            indicators.forEach((indicator, index) => {
-                indicator.classList.toggle('bg-white/80', index === currentSlide);
-                indicator.classList.toggle('bg-white/50', index !== currentSlide);
-            });
-        }
+function updateCarousel() {
+    const slideWidth = slides[0].offsetWidth;
+    carousel.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+    
+    // Update indicators
+    indicators.forEach((indicator, index) => {
+        indicator.classList.toggle('bg-white/80', index === currentSlide);
+        indicator.classList.toggle('bg-white/50', index !== currentSlide);
+    });
+    
+    // Update thumbnail borders
+    updateThumbnailBorders();
+}
         
         function nextSlide() {
             currentSlide = (currentSlide + 1) % slides.length;
@@ -282,6 +285,20 @@
                 goToSlide(parseInt(this.dataset.index));
             });
         });
+
+
+        function updateThumbnailBorders() {
+    const thumbnails = document.querySelectorAll('.thumbnail-container');
+    thumbnails.forEach((container, index) => {
+        if (index === currentSlide) {
+            container.classList.add('border-2', 'border-[#fc8eac]');
+            container.classList.remove('hover:border-2', 'hover:border-[#fc8eac]');
+        } else {
+            container.classList.remove('border-2', 'border-[#fc8eac]');
+            container.classList.add('hover:border-2', 'hover:border-[#fc8eac]');
+        }
+    });
+}
         
         // Quantity controls
         function increaseQuantity() {

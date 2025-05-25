@@ -1,4 +1,3 @@
-
 <?php
 function displayBreadcrumbs($productName) {
     ?>
@@ -61,7 +60,8 @@ function displayImageCarousel($all_images, $productName, $errors) {
                     <div class="carousel-slide w-full flex-shrink-0">
                         <img src="data:image/jpeg;base64,<?= $image ?>" 
                              alt="<?= htmlspecialchars($productName) ?> - Image <?= $index + 1 ?>" 
-                             class="w-full h-auto max-h-[500px] object-contain rounded-lg">
+                             class="w-full h-auto max-h-[500px] object-contain rounded-lg"
+                             id="current-image-<?= $index ?>">
                     </div>
                     <?php endforeach; ?>
                 </div>
@@ -83,12 +83,16 @@ function displayImageCarousel($all_images, $productName, $errors) {
             <div class="mt-6 space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Main Image</label>
-                    <input type="file" name="main_img" accept="image/*" class="block w-full text-sm text-gray-500
+                    <input type="file" name="main_img" accept="image/*" class="image-upload block w-full text-sm text-gray-500
                         file:mr-4 file:py-2 file:px-4
                         file:rounded-md file:border-0
                         file:text-sm file:font-semibold
                         file:bg-[#fc8eac] file:text-white
-                        hover:file:bg-[#e47a98]">
+                        hover:file:bg-[#e47a98]"
+                        data-preview-target="current-image-0">
+                    <div id="main-img-preview" class="mt-2 hidden">
+                        <img id="main-img-preview-img" class="mt-1 max-h-40 rounded-lg border border-gray-200">
+                    </div>
                     <?php if (isset($errors['main_img'])): ?>
                         <p class="mt-1 text-sm text-red-600"><?= htmlspecialchars($errors['main_img']) ?></p>
                     <?php endif; ?>
@@ -98,12 +102,17 @@ function displayImageCarousel($all_images, $productName, $errors) {
                     <?php for ($i = 1; $i <= 4; $i++): ?>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Image <?= $i ?></label>
-                        <input type="file" name="img<?= $i ?>" accept="image/*" class="block w-full text-sm text-gray-500
+                        <input type="file" name="img<?= $i ?>" accept="image/*" class="image-upload block w-full text-sm text-gray-500
                             file:mr-4 file:py-2 file:px-4
                             file:rounded-md file:border-0
                             file:text-sm file:font-semibold
                             file:bg-gray-100 file:text-gray-700
-                            hover:file:bg-gray-200">
+                            hover:file:bg-gray-200"
+                            data-preview-target="current-image-<?= $i ?>">
+                        <div id="img<?= $i ?>-preview" class="mt-2 hidden">
+                            <p class="text-sm text-gray-500">New image preview:</p>
+                            <img id="img<?= $i ?>-preview-img" class="mt-1 max-h-40 rounded-lg border border-gray-200">
+                        </div>
                         <?php if (isset($errors['img'.$i])): ?>
                             <p class="mt-1 text-sm text-red-600"><?= htmlspecialchars($errors['img'.$i]) ?></p>
                         <?php endif; ?>
@@ -115,7 +124,6 @@ function displayImageCarousel($all_images, $productName, $errors) {
     </div>
     <?php
 }
-
 function displayProductForm($product, $errors) {
     ?>
     <div class="space-y-6">
@@ -198,6 +206,33 @@ function displayCarouselScript() {
         
         document.getElementById('nextBtn')?.addEventListener('click', nextSlide);
         document.getElementById('prevBtn')?.addEventListener('click', prevSlide);
+        
+        // Image preview functionality
+        document.querySelectorAll('.image-upload').forEach(input => {
+            input.addEventListener('change', function(e) {
+                const previewContainer = document.getElementById(`${this.name}-preview`);
+                const previewImage = document.getElementById(`${this.name}-preview-img`);
+                const currentImage = document.getElementById(this.dataset.previewTarget);
+                
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                        previewContainer.classList.remove('hidden');
+                        
+                        // Also update the carousel preview if this is the main image
+                        if (currentImage) {
+                            currentImage.src = e.target.result;
+                        }
+                    }
+                    
+                    reader.readAsDataURL(this.files[0]);
+                } else {
+                    previewContainer.classList.add('hidden');
+                }
+            });
+        });
         
         updateCarousel();
     </script>
