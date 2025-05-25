@@ -18,7 +18,9 @@
                 <div class="space-y-4">
                     <div class="flex items-center">
                         <img src="../assets/logo/logo.png" alt="Logo" class="h-12 w-12">
-                        <span class="ml-2 text-xl font-semibold text-gray-800">Jommee</span>
+<span class="-ml-3 text-xl font-semibold font-[TREBUCHET MS] text-[#fe036a]">
+    OMMEE
+</span>
                     </div>
                     <p class="text-gray-500 text-sm">
                         Making beautiful products to simplify your life and bring you joy.
