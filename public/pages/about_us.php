@@ -52,11 +52,11 @@ $pageTitle = "About Us";
                         </a>
                     </div>
                 </div>
-                <div class="mt-10 md:mt-0 md:w-1/2">
-                    <img class="rounded-lg shadow-xl w-full h-auto max-h-96 object-cover" 
-                         src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
-                         alt="Our team working together">
-                </div>
+<div class="md:w-1/2 -mt-20">  <!-- Negative margin pulls it up -->
+    <img class="w-full h-full object-cover" 
+         src="../assets/logo/about.jpg" 
+         alt="Our team working together">
+</div>
             </div>
         </div>
     </section>
@@ -129,41 +129,39 @@ $pageTitle = "About Us";
 
         <!-- Centered Team Grid -->
  <div class="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover-scale">
-                    <img class="w-full h-64 object-cover" 
-                         src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" 
+<div class="bg-white rounded-xl shadow-md overflow-hidden hover-scale">
+    <img class="w-full h-64 object-contain bg-white" 
+                         src="https://upload.wikimedia.org/wikipedia/en/2/22/Pok%C3%A9mon_Jigglypuff_art.png" 
                          alt="Sarah Johnson">
                     <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-900">NULL</h3>
-                        <p class="mt-1 text-[#d81b60]">NULL</p>
+                        <h3 class="text-xl font-bold text-gray-900">Christian Ala</h3>
                         <p class="mt-3 text-gray-600">
-                            "NULL"
+                            “Jigglypuff… Jigglypuff!”
                         </p>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover-scale">
-                    <img class="w-full h-64 object-cover" 
-                         src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" 
+<div class="bg-white rounded-xl shadow-md overflow-hidden hover-scale">
+    <img class="w-full h-64 object-contain bg-white" 
+                         src="https://cdn.hackernoon.com/images/AKsNRMQ5sghpqx7EhVDK3vl0AZJ2-ei3d351d.png" 
                          alt="Michael Chen">
                     <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-900">NULL</h3>
-                        <p class="mt-1 text-[#d81b60]">NULL</p>
+                        <h3 class="text-xl font-bold text-gray-900">Jamaica C. Magbanua</h3>
                         <p class="mt-3 text-gray-600">
-                            "NULL"
+                            “Skit-ty! Skit~ty!”
                         </p>
                     </div>
                 </div>
 
-                                <div class="bg-white rounded-xl shadow-md overflow-hidden hover-scale">
-                    <img class="w-full h-64 object-cover" 
-                         src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" 
-                         alt="Michael Chen">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-900">NULL</h3>
-                        <p class="mt-1 text-[#d81b60]">NULL</p>
+<div class="bg-white rounded-xl shadow-md overflow-hidden hover-scale">
+    <img class="w-full h-64 object-contain bg-white" 
+         src="https://cdn.hackernoon.com/images/AKsNRMQ5sghpqx7EhVDK3vl0AZJ2-j21v35a5.png" 
+         alt="Michael Chen">
+    <div class="p-6">
+
+                        <h3 class="text-xl font-bold text-gray-900">Juan Dela Cruz</h3>
                         <p class="mt-3 text-gray-600">
-                            "NULL"
+                            “Mew! Mew~!”
                         </p>
                     </div>
                 </div>
