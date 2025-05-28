@@ -1,7 +1,8 @@
 <?php
 require_once 'connect_db.php';
 
-function compressImage($blob, $quality = 75) {
+function compressImage($blob, $quality = 75)
+{
     $tmpPath = tempnam(sys_get_temp_dir(), 'img_');
     file_put_contents($tmpPath, $blob);
 
@@ -40,7 +41,8 @@ function compressImage($blob, $quality = 75) {
     return $compressed;
 }
 
-function compressAllProductImages($pdo) {
+function compressAllProductImages($pdo)
+{
     try {
         $stmt = $pdo->query("SELECT idproduct, main_img FROM product WHERE main_img IS NOT NULL");
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -61,45 +63,77 @@ function compressAllProductImages($pdo) {
     }
 }
 
-function handleProductOperations($pdo) {
+function handleProductOperations($pdo)
+{
     // Add Product
     if (isset($_POST['add_product'])) {
         $name = $_POST['name'];
         $price = $_POST['price'];
+        $stock = $_POST['stock'];
+        $idcategory = $_POST['idcategory'];
+        $description = $_POST['description'];
+
         $main_img = null;
+        $img1 = $img2 = $img3 = $img4 = null;
 
         if (isset($_FILES['image']) && $_FILES['image']['tmp_name']) {
             $main_img = compressImage(file_get_contents($_FILES['image']['tmp_name']), 75);
         }
 
-        $sql = "INSERT INTO product (name, price, main_img) VALUES (?, ?, ?)";
+        foreach (['img1', 'img2', 'img3', 'img4'] as $imgField) {
+            if (isset($_FILES[$imgField]) && $_FILES[$imgField]['tmp_name']) {
+                $$imgField = compressImage(file_get_contents($_FILES[$imgField]['tmp_name']), 75);
+            }
+        }
+
+        $sql = "INSERT INTO product (name, price, main_img, img1, img2, img3, img4, stock, idcategory, description)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$name, $price, $main_img]);
-        
-        header("Location: ".$_SERVER['PHP_SELF']);
+        $stmt->execute([$name, $price, $main_img, $img1, $img2, $img3, $img4, $stock, $idcategory, $description]);
+
+        header("Location: " . $_SERVER['PHP_SELF']);
         exit();
     }
 
     // Update Product
     if (isset($_POST['update_product'])) {
         $id = $_POST['id'];
+        $idcategory = $_POST['idcategory'];
         $name = $_POST['name'];
         $price = $_POST['price'];
+        $stock = $_POST['stock'];
+        $description = $_POST['description'];
 
-        if (isset($_FILES['image']) && $_FILES['image']['tmp_name']) {
-            $main_img = compressImage(file_get_contents($_FILES['image']['tmp_name']), 75);
-            $sql = "UPDATE product SET name = ?, price = ?, main_img = ? WHERE idproduct = ?";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([$name, $price, $main_img, $id]);
-        } else {
-            $sql = "UPDATE product SET name = ?, price = ? WHERE idproduct = ?";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([$name, $price, $id]);
+        $fields = ['name' => $name, 'price' => $price, 'idcategory' => $idcategory, 'stock' => $stock, 'description' => $description];
+        $sqlParts = ['name = ?', 'price = ?', 'idcategory = ?', 'stock = ?', 'description = ?'];
+        $params = [$name, $price];
+
+        // Handle all image uploads conditionally
+        $imageFields = [
+            'image' => 'main_img',
+            'img1' => 'img1',
+            'img2' => 'img2',
+            'img3' => 'img3',
+            'img4' => 'img4'
+        ];
+
+        foreach ($imageFields as $inputName => $columnName) {
+            if (isset($_FILES[$inputName]) && $_FILES[$inputName]['tmp_name']) {
+                $compressed = compressImage(file_get_contents($_FILES[$inputName]['tmp_name']), 75);
+                $sqlParts[] = "$columnName = ?";
+                $params[] = $compressed;
+            }
         }
-        
-        header("Location: ".$_SERVER['PHP_SELF']);
+
+        $params[] = $id;
+        $sql = "UPDATE product SET " . implode(', ', $sqlParts) . " WHERE idproduct = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($params);
+
+        header("Location: " . $_SERVER['PHP_SELF']);
         exit();
     }
+
 
     // Delete Product
     if (isset($_GET['delete'])) {
@@ -118,9 +152,10 @@ function handleProductOperations($pdo) {
     return $pdo->query($sql);
 }
 
-function getProductImage($row) {
+function getProductImage($row)
+{
     if (!empty($row['main_img'])) {
-        return 'data:image/jpeg;base64,'.base64_encode($row['main_img']);
+        return 'data:image/jpeg;base64,' . base64_encode($row['main_img']);
     }
     return null;
 }

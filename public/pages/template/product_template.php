@@ -1,4 +1,9 @@
-<?php function renderProductManagement($products)
+<?php 
+  include_once '../includes/connect_db.php';
+  $stmt1 = $pdo->prepare("SELECT * FROM category");
+  $stmt1->execute();
+  $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
+  function renderProductManagement($products)
 { ?>
   <!DOCTYPE html>
   <html lang="en">
@@ -7,9 +12,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Product Management</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> -->
     <link href="/public/assets/css/output.css" rel="stylesheet">
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <link rel="icon" href="../assets/logo/logo1.ico" type="image/x-icon">
     <link rel="stylesheet" href="../assets/js/jquery-3.7.1.min.js">
     <link rel="stylesheet" href="../assets/css/output.css">
@@ -115,6 +119,29 @@
           <label class="block text-sm font-medium text-gray-700 mb-1">Price</label>
           <input type="number" name="price" required step="0.01"
             class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fc8eac]">
+        </div>
+
+        <div>
+          <label for="add_category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+          <select id="add_category" name="category" required
+            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fc8eac]">
+            <option value="" hidden>Choose a category</option>
+            <?php foreach ($categories AS $category): ?>
+              <option value="<?=$category['idcategory']?>"><?=$category['name']?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Stock</label>
+          <input type="number" name="stock" required step="0.01"
+            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fc8eac]">
+        </div>
+
+        <div>
+          <label for="add_description" class="block text-sm font-medium text-gray-700 mb-1">Stock</label>
+          <textarea id="add_description" type="number" name="stock"
+            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fc8eac]"></textarea>
         </div>
 
         <div>
