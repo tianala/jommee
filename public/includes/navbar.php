@@ -1,10 +1,19 @@
+<?php 
+$usertype = $_SESSION['usertype'];
+$iduser = $_SESSION['iduser'];
+
+include_once 'connect_db.php';
+$stmt = $pdo->prepare('SELECT COUNT(*) AS count FROM cart WHERE iduser=?');
+$stmt->execute([$iduser]);
+$count = $stmt->fetch();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Jommee Navbar</title>
-  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <link rel="stylesheet" href="../assets/css/output.css">
     <link rel="stylesheet" href="../assets/css/fontawesome/all.min.css">
     <link rel="stylesheet" href="../assets/css/fontawesome/fontawesome.min.css">
@@ -48,14 +57,13 @@
         <a href="../pages/cart.php" class="text-lg hover:text-gray-200 relative">
           <i class="fa-solid fa-cart-shopping"></i>
           <!-- Cart counter badge -->
-          <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span>
+          <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center"><?=$count['count']?></span>
         </a>
       </div>
     </div>
 
 <div id="mobile-links" class="hidden md:flex flex-col md:flex-row w-full md:w-auto space-y-3 md:space-y-0 md:space-x-6 text-white font-semibold text-sm mt-3 md:mt-0 pl-4 md:pl-0">
-  <a href="#" class="hover:underline py-1 md:py-0">Log In</a>
-  <a href="#" class="hover:underline py-1 md:py-0">Sign Up</a>
+  <a href="../includes/logout.php" class="hover:underline py-1 md:py-0">Log Out</a>
   <a href="../pages/about_us.php" class="hover:underline py-1 md:py-0">About Us</a>
   <a href="../pages/contact.php" class="hover:underline py-1 md:py-0">Contact Us</a>
 </div>

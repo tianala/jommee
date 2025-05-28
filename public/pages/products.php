@@ -1,4 +1,7 @@
 <?php
+session_start();
+$usertype = $_SESSION['usertype'] ?? null;
+
 require_once '../includes/product_functions.php';
 $products = handleProductOperations($pdo);
 include_once '../includes/connect_db.php';
@@ -29,45 +32,52 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
 <body class="bg-gray-50 p-6">
 
     <div class="bg-pink-100 shadow rounded m-auto mt-4 md:w-10/12 p-2 px-4 w-11/12">
-        <div class="flex justify-end items-center my-6 mr-3">
-            <button onclick="document.getElementById('addModal').showModal()"
-                class="bg-[#fc8eac] hover:bg-[#e75480] text-white text-xs sm:text-base px-3 sm:px-4 py-1.5 sm:py-2 rounded sm:rounded-lg transition">
-                <i class="fas fa-plus mr-1 sm:mr-2"></i>Add Product
-            </button>
-        </div>
-    
+
+        <?php if ($usertype === 0): ?>
+            <div class="flex justify-end items-center my-6 mr-3">
+                <button onclick="document.getElementById('addModal').showModal()"
+                    class="bg-[#fc8eac] hover:bg-[#e75480] text-white text-xs sm:text-base px-3 sm:px-4 py-1.5 sm:py-2 rounded sm:rounded-lg transition">
+                    <i class="fas fa-plus mr-1 sm:mr-2"></i>Add Product
+                </button>
+            </div>
+        <?php endif; ?>
+
         <div
             class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-1 md:gap-2 lg:gap-4 sm:mb-5 md:mb-5">
             <?php foreach ($products as $row): ?>
                 <div class="bg-white rounded-xl shadow-md p-2 sm:p-6 flex flex-col text-center relative w-full max-w-[180px] sm:max-w-[200px] md:max-w-none"
-                    id="item-<?= $row['idproduct'] ?>" data-idproduct="<?= $row['idproduct'] ?>" data-name="<?= $row['name'] ?>"
-                    data-description="<?= $row['description'] ?>" data-idcategory="<?= $row['idcategory'] ?>"
-                    data-description="<?= $row['description'] ?>" data-stock="<?= $row['stock'] ?>"
-                    data-price="<?= $row['price'] ?>" data-main_img="<?= base64_encode($row['main_img']) ?>">
-    
-                    <div class="absolute right-3 top-3 dropdown w-4 h-4">
-                        <button class="text-gray-500 hover:text-gray-700 focus:outline-none" onclick="event.stopPropagation()">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </button>
-                        <div class="dropdown-menu hidden absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-10"
-                            onclick="event.stopPropagation()">
-                            <a a href="edit_product.php?id=<?=$row['idproduct'] ?>"
-                                class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                <i class="fas fa-edit mr-2"></i>Edit
-                            </a>
-                            <button
-                                onclick="event.stopPropagation(); openDeleteModal('<?= $row['idproduct'] ?>', '<?= htmlspecialchars($row['name']) ?>')"
-                                class="flex items-center px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-md transition-colors duration-200 w-full text-left">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                                Delete
+                    id="item-<?= $row['idproduct'] ?>" data-idproduct="<?= $row['idproduct'] ?>"
+                    data-name="<?= $row['name'] ?>" data-description="<?= $row['description'] ?>"
+                    data-idcategory="<?= $row['idcategory'] ?>" data-description="<?= $row['description'] ?>"
+                    data-stock="<?= $row['stock'] ?>" data-price="<?= $row['price'] ?>"
+                    data-main_img="<?= base64_encode($row['main_img']) ?>">
+
+                    <?php if ($usertype === 0): ?>
+                        <div class="absolute right-3 top-3 dropdown w-4 h-4">
+                            <button class="text-gray-500 hover:text-gray-700 focus:outline-none"
+                                onclick="event.stopPropagation()">
+                                <i class="fas fa-ellipsis-v"></i>
                             </button>
+                            <div class="dropdown-menu hidden absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-10"
+                                onclick="event.stopPropagation()">
+                                <a a href="edit_product.php?id=<?= $row['idproduct'] ?>"
+                                    class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-edit mr-2"></i>Edit
+                                </a>
+                                <button
+                                    onclick="event.stopPropagation(); openDeleteModal('<?= $row['idproduct'] ?>', '<?= htmlspecialchars($row['name']) ?>')"
+                                    class="flex items-center px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-md transition-colors duration-200 w-full text-left">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                    Delete
+                                </button>
+                            </div>
                         </div>
-                    </div>
-    
+                    <?php endif; ?>
+
                     <?php $image = getProductImage($row); ?>
                     <?php if ($image): ?>
                         <div
@@ -76,21 +86,23 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
                                 class="w-full h-full object-contain lozad">
                         </div>
                     <?php else: ?>
-                        <div class="w-full h-40 sm:h-36 md:h-44 lg:h-48 bg-gray-200 mb-3 sm:mb-4 flex items-center justify-center">
+                        <div
+                            class="w-full h-40 sm:h-36 md:h-44 lg:h-48 bg-gray-200 mb-3 sm:mb-4 flex items-center justify-center">
                             <span class="text-gray-500 text-sm">No image</span>
                         </div>
                     <?php endif; ?>
-    
+
                     <div class="text-left">
                         <h2 class="text-xs sm:text-sm font-medium mb-1 truncate h-5"
                             title="<?= htmlspecialchars($row['name']) ?>">
                             <?= htmlspecialchars($row['name']) ?>
                         </h2>
                     </div>
-    
+
                     <p class="text-[0.8rem] sm:text-[0.9rem] text-[#cd1c1c] font-semibold mb-1 text-left">
                         ₱<?= number_format($row['price'], 2) ?></p>
-    
+                    <a class="text-xs text-left hover:text-pink-400 text-gray-600" href="product_view.php?id=<?= $row['idproduct'] ?>"><span>View Product</span></a>
+
                     <div class="flex justify-center items-center gap-2 sm:gap-3 mt-2">
                         <button
                             class="bg-[#fc8eac] text-white text-sm sm:text-sm px-3 sm:px-4 py-1 rounded sm:rounded-lg hover:bg-[#e75480] transition">
@@ -107,12 +119,12 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             <?php endforeach; ?>
         </div>
-    
+
         <!-- Add Product Modal -->
         <dialog id="addModal" class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
             <form method="POST" class="space-y-4" enctype="multipart/form-data">
                 <h2 class="text-xl font-bold mb-4">Add New Product</h2>
-    
+
                 <div>
                     <input type="file" name="image" id="add_image" accept="image/*"
                         class="w-full hidden px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fc8eac]"
@@ -126,7 +138,7 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
                             for="add_image"><i class="fa-solid fa-upload"></i></label>
                     </div>
                 </div>
-    
+
                 <h4 class="block text-sm font-medium text-gray-700 mb-1">Carousel Images:</h4>
                 <div class="w-full grid grid-cols-2 gap-2">
                     <input type="file" name="img1" id="add_img1" accept="image/*"
@@ -141,7 +153,7 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
                     <input type="file" name="img4" id="add_img4" accept="image/*"
                         class="w-full hidden px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fc8eac]"
                         onchange="previewAddImg4(event)">
-    
+
                     <div class="relative w-full h-32 border border-pink-400 rounded">
                         <img id="add_img1_preview" src="" alt="Image Preview"
                             class="h-full object-contain hidden rounded-md m-auto" />
@@ -171,19 +183,19 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
                             for="add_img4"><i class="fa-solid fa-upload"></i></label>
                     </div>
                 </div>
-    
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
                     <input type="text" name="name" required
                         class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fc8eac]">
                 </div>
-    
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Price</label>
                     <input type="number" name="price" required step="0.01"
                         class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fc8eac]">
                 </div>
-    
+
                 <div>
                     <label for="add_category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
                     <select id="add_category" name="idcategory" required
@@ -194,19 +206,20 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
                         <?php endforeach; ?>
                     </select>
                 </div>
-    
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Stock:</label>
                     <input type="number" name="stock" required step="0.01"
                         class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fc8eac]">
                 </div>
-    
+
                 <div>
-                    <label for="add_description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <label for="add_description"
+                        class="block text-sm font-medium text-gray-700 mb-1">Description</label>
                     <textarea id="add_description" name="description" rows="5"
                         class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fc8eac] resize-none"></textarea>
                 </div>
-    
+
                 <div class="flex justify-end space-x-3 pt-4">
                     <button type="button" onclick="document.getElementById('addModal').close()"
                         class="px-4 py-2 text-gray-600 hover:text-gray-800">
@@ -219,13 +232,13 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </form>
         </dialog>
-    
+
         <!-- Edit Product Modal -->
         <dialog id="editModal" class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md hidden">
             <form id="editForm" method="POST" class="space-y-4" enctype="multipart/form-data">
                 <h2 class="text-xl font-bold mb-4">Edit Product</h2>
                 <input type="hidden" name="idproduct" id="edit_idproduct">
-    
+
                 <div>
                     <input type="file" name="image" id="edit_image" accept="image/*"
                         class="w-full hidden px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fc8eac]"
@@ -239,7 +252,7 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
                             for="edit_image"><i class="fa-solid fa-upload"></i></label>
                     </div>
                 </div>
-    
+
                 <h4 class="block text-sm font-medium text-gray-700 mb-1">Carousel Images:</h4>
                 <div class="w-full grid grid-cols-2 gap-2">
                     <input type="file" name="img1" id="edit_img1" accept="image/*"
@@ -254,7 +267,7 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
                     <input type="file" name="img4" id="edit_img4" accept="image/*"
                         class="w-full hidden px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fc8eac]"
                         onchange="previewAddImg4(event)">
-    
+
                     <div class="relative w-full h-32 border border-pink-400 rounded">
                         <img id="edit_img1_preview" src="" alt="Image Preview"
                             class="h-full object-contain hidden rounded-md m-auto" />
@@ -284,19 +297,19 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
                             for="edit_img4"><i class="fa-solid fa-upload"></i></label>
                     </div>
                 </div>
-    
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
                     <input id="edit_name" type="text" name="name" required
                         class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fc8eac]">
                 </div>
-    
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Price</label>
                     <input id="edit_price" type="number" name="price" required step="0.01"
                         class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fc8eac]">
                 </div>
-    
+
                 <div>
                     <label for="edit_idcategory" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
                     <select id="edit_idcategory" name="idcategory" required
@@ -307,21 +320,23 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
                         <?php endforeach; ?>
                     </select>
                 </div>
-    
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Stock:</label>
                     <input type="number" name="stock" id="edit_stock" required step="0.01"
                         class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fc8eac]">
                 </div>
-    
+
                 <div>
-                    <label for="edit_description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <label for="edit_description"
+                        class="block text-sm font-medium text-gray-700 mb-1">Description</label>
                     <textarea id="edit_description" name="description" rows="5"
                         class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fc8eac] resize-none"></textarea>
                 </div>
-    
+
                 <div class="flex justify-end space-x-3 pt-4">
-                    <button type="button" onclick="closeEditModal()" class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                    <button type="button" onclick="closeEditModal()"
+                        class="px-4 py-2 text-gray-600 hover:text-gray-800">
                         Cancel
                     </button>
                     <button type="submit" name="edit_product"
@@ -331,9 +346,10 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </form>
         </dialog>
-    
-    
-        <div id="deleteModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 hidden">
+
+
+        <div id="deleteModal"
+            class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 hidden">
             <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
                 <div class="p-6">
                     <div class="flex items-center justify-between mb-4">
