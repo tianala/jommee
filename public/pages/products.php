@@ -1,6 +1,9 @@
 <?php
-session_start();
-$usertype = $_SESSION['usertype'] ?? null;
+if (isset($_SESSION['logged_in'])) {
+    if ($_SESSION['logged_in'] == true) {
+        $usertype = $_SESSION['usertype'];
+    }
+}
 
 require_once '../includes/product_functions.php';
 $products = handleProductOperations($pdo);
@@ -31,7 +34,7 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
 
 <body class="bg-gray-50 p-6">
 
-    <div class="bg-pink-100 shadow rounded m-auto mt-4 md:w-10/12 p-2 px-4 w-11/12">
+    <div class="bg-white shadow rounded m-auto mt-4 md:w-10/12 p-2 px-4 w-11/12">
 
         <?php if ($usertype === 0): ?>
             <div class="flex justify-end items-center my-6 mr-3">
@@ -101,21 +104,9 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
 
                     <p class="text-[0.8rem] sm:text-[0.9rem] text-[#cd1c1c] font-semibold mb-1 text-left">
                         ₱<?= number_format($row['price'], 2) ?></p>
-                    <a class="text-xs text-left hover:text-pink-400 text-gray-600" href="product_view.php?id=<?= $row['idproduct'] ?>"><span>View Product</span></a>
+                    <a class="text-xs text-left hover:text-pink-400 text-gray-600"
+                        href="product_view.php?id=<?= $row['idproduct'] ?>"><span>View Product</span></a>
 
-                    <div class="flex justify-center items-center gap-2 sm:gap-3 mt-2">
-                        <button
-                            class="bg-[#fc8eac] text-white text-sm sm:text-sm px-3 sm:px-4 py-1 rounded sm:rounded-lg hover:bg-[#e75480] transition">
-                            Buy
-                        </button>
-                        <form method="POST" action="cart.php">
-                            <input type="hidden" name="idproduct" value="<?= $row['idproduct'] ?>">
-                            <button type="submit" name="add_to_cart"
-                                class="text-[#ff0090] bg-[#fcf1f2] text-sm sm:text-sm px-2 sm:px-3 py-1 rounded sm:rounded-lg hover:bg-gray-300 transition border border-pink-300">
-                                Add to Cart
-                            </button>
-                        </form>
-                    </div>
                 </div>
             <?php endforeach; ?>
         </div>

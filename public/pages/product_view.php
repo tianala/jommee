@@ -1,9 +1,6 @@
 <?php
 require_once '../includes/connect_db.php';
 require_once '../includes/product_view_functions.php';
-session_start(); // Make sure session is started
-
-// Check if product ID is provided
 if (!isset($_GET['id'])) {
     $_SESSION['error'] = "Product ID not provided.";
     header("Location: products.php");

@@ -147,7 +147,6 @@
                         </div>
 
                         <form method="POST" action="../includes/checkout.php" id="checkout-form">
-                            <!-- existing order summary UI here -->
                             <input type="hidden" name="selected_items" id="selected-items">
                             <button type="submit"
                                 class="w-full bg-[#fc8eac] hover:bg-[#e75480] text-white py-2 md:py-3 rounded-lg transition font-medium text-sm md:text-base">

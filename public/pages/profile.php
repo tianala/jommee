@@ -1,18 +1,3 @@
-<?php
-session_start();
-require_once '../includes/connect_db.php';
-
-// if (!isset($_SESSION['iduser'])) {
-//     header('Location: login.php');
-//     exit;
-// }
-
-$iduser = $_SESSION['iduser'];
-$stmt = $pdo->prepare("SELECT username, email, contact_num FROM user WHERE iduser = ?");
-$stmt->execute([$iduser]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,14 +18,25 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
         <?php include_once '../includes/navbar.php' ?>
     </div>
 
+    <?php
+    require_once '../includes/connect_db.php';
+    $iduser = $_SESSION['iduser'];
+    $stmt = $pdo->prepare("SELECT username, email, contact_num FROM user WHERE iduser = ?");
+    $stmt->execute([$iduser]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    ?>
+
+
     <?php if (!empty($_SESSION['profile_error'])): ?>
         <div class="bg-red-100 text-red-700 p-3 rounded mb-6 text-left">
             <?= $_SESSION['profile_error'];
-            unset($_SESSION['profile_error']); ?></div>
+            unset($_SESSION['profile_error']); ?>
+        </div>
     <?php elseif (!empty($_SESSION['profile_success'])): ?>
         <div class="bg-green-100 text-green-700 p-3 rounded mb-6 text-left">
             <?= $_SESSION['profile_success'];
-            unset($_SESSION['profile_success']); ?></div>
+            unset($_SESSION['profile_success']); ?>
+        </div>
     <?php endif; ?>
 
     <main class="max-w-3xl mx-auto bg-white shadow-md rounded-lg mt-10 p-6">

@@ -1,6 +1,5 @@
 <?php
-    session_start();
-    $ref = htmlspecialchars($_GET['ref'] ?? 'N/A');
+    $ref = htmlspecialchars($_GET['ref']);
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +9,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Confirmation</title>
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" href="../assets/logo/logo1.ico" type="image/x-icon">
     <link rel="stylesheet" href="../assets/css/output.css">

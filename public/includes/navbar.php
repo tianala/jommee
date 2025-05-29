@@ -1,4 +1,5 @@
 <?php
+session_start();
 $usertype = $_SESSION['usertype'];
 $iduser = $_SESSION['iduser'];
 
