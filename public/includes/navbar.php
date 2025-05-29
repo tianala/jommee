@@ -61,12 +61,15 @@ $count = $stmt->fetch();
         <a href="../pages/profile.php" class="text-lg hover:text-gray-200"><i class="fa-solid fa-user"></i></a>
         <a href="../pages/products.php" class="text-lg hover:text-gray-200 relative">
           <i class="fa-solid fa-house"></i> </a>
+        <a href="../pages/orders.php" class="text-lg hover:text-gray-200 relative">
+          <i class="fa-solid fa-table-list"></i> 
         <a href="../pages/cart.php" class="text-lg hover:text-gray-200 relative">
           <i class="fa-solid fa-cart-shopping"></i>
-          <!-- Cart counter badge -->
-          <span
-            class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center"><?= $count['count'] ?></span>
-        </a>
+            
+            <!-- Cart counter badge -->
+            <span
+              class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center"><?= $count['count'] ?></span>
+          </a>
       </div>
     </div>
 
