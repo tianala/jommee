@@ -68,7 +68,8 @@
                                         <div class="flex-1 md:flex-none break-word">
                                             <div class="w-1/3">
                                                 <h3 class="font-medium text-sm md:text-base">
-                                                    <?= htmlspecialchars($item['name']) ?></h3>
+                                                    <?= htmlspecialchars($item['name']) ?>
+                                                </h3>
                                             </div>
                                             <!-- Mobile Price -->
                                             <div class="md:hidden flex justify-between items-center mt-1">
@@ -145,10 +146,14 @@
                             </div>
                         </div>
 
-                        <button
-                            class="w-full bg-[#fc8eac] hover:bg-[#e75480] text-white py-2 md:py-3 rounded-lg transition font-medium text-sm md:text-base">
-                            Proceed to Checkout
-                        </button>
+                        <form method="POST" action="../includes/checkout.php" id="checkout-form">
+                            <!-- existing order summary UI here -->
+                            <input type="hidden" name="selected_items" id="selected-items">
+                            <button type="submit"
+                                class="w-full bg-[#fc8eac] hover:bg-[#e75480] text-white py-2 md:py-3 rounded-lg transition font-medium text-sm md:text-base">
+                                Proceed to Checkout
+                            </button>
+                        </form>
 
                         <div class="mt-3 md:mt-4 text-center">
                             <a href="products.php" class="text-[#fc8eac] hover:text-[#e75480] text-xs md:text-sm">
@@ -178,18 +183,23 @@
         // Update order summary when items are selected
         function updateOrderSummary() {
             let subtotal = 0;
+            const selectedItems = [];
 
             document.querySelectorAll('.cart-item').forEach(item => {
                 const checkbox = item.querySelector('.item-selector');
                 if (checkbox.checked) {
                     const price = parseFloat(item.querySelector('.item-price').dataset.price);
                     const quantity = parseInt(item.querySelector('.item-quantity').value);
+                    const idcart = item.getAttribute('data-id');
+
                     subtotal += price * quantity;
+                    selectedItems.push({ idcart, quantity });
                 }
             });
 
             document.getElementById('order-subtotal').textContent = `₱${subtotal.toFixed(2)}`;
             document.getElementById('order-total').textContent = `₱${subtotal.toFixed(2)}`;
+            document.getElementById('selected-items').value = JSON.stringify(selectedItems);
         }
 
         // Initialize event listeners

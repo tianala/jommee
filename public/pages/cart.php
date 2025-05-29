@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$iduser = $_SESSION['user_id'] ?? 0; 
+$iduser = $_SESSION['iduser']; 
 
 // Handle cart actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
