@@ -48,5 +48,5 @@ try {
     $pdo = new PDO($dsn, $username, $password, $option);
 } catch (PDOException $e) {
     die("Database connection failed: " . $e->getMessage());
-    die("Database connection failed. Please try again later.");
+    // die("Database connection failed. Please try again later.");
 }

@@ -7,8 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Get current user ID (you'll need to replace this with your actual auth system)
-$iduser = $_SESSION['user_id'] ?? 0; // Replace with your user authentication
+$iduser = $_SESSION['iduser']; 
 
 // Handle cart actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
