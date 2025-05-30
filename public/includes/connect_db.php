@@ -18,7 +18,7 @@ function loadEnv($path)
 
 
 
-
+// loadEnv('/home/u273960544/domains/miceff.com/tester.env');  // ----- PRODUCTION   ----- //
 loadEnv(__DIR__ . '/../.env');                          // ----- DEVELOPMENT  ----- //
 
 

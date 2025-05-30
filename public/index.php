@@ -119,12 +119,12 @@
 
             <!-- Icons - Visible on all screen sizes -->
             <div class="flex items-center ml-4 space-x-4 text-white">
-                <a href="../pages/profile.php" class="text-lg hover:text-gray-200"><i class="fa-solid fa-user"></i></a>
-                <a href="../pages/products.php" class="text-lg hover:text-gray-200 relative">
+                <a href="./pages/profile.php" class="text-lg hover:text-gray-200"><i class="fa-solid fa-user"></i></a>
+                <a href="./pages/products.php" class="text-lg hover:text-gray-200 relative">
                     <i class="fa-solid fa-house"></i> </a>
-                <a href="../pages/orders.php" class="text-lg hover:text-gray-200 relative">
+                <a href="./pages/orders.php" class="text-lg hover:text-gray-200 relative">
                     <i class="fa-solid fa-table-list"></i>
-                    <a href="../pages/cart.php" class="text-lg hover:text-gray-200 relative">
+                    <a href="./pages/cart.php" class="text-lg hover:text-gray-200 relative">
                         <i class="fa-solid fa-cart-shopping"></i>
 
                         <!-- Cart counter badge -->
