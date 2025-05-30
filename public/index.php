@@ -119,13 +119,13 @@
 
             <!-- Icons - Visible on all screen sizes -->
             <div class="flex items-center ml-4 space-x-4 text-white">
-                <a href="./pages/profile.php" class="text-lg hover:text-gray-200"><i class="fa-solid fa-user"></i></a>
+                <!-- <a href="./pages/profile.php" class="text-lg hover:text-gray-200"><i class="fa-solid fa-user"></i></a>
                 <a href="./pages/products.php" class="text-lg hover:text-gray-200 relative">
                     <i class="fa-solid fa-house"></i> </a>
                 <a href="./pages/orders.php" class="text-lg hover:text-gray-200 relative">
                     <i class="fa-solid fa-table-list"></i>
                     <a href="./pages/cart.php" class="text-lg hover:text-gray-200 relative">
-                        <i class="fa-solid fa-cart-shopping"></i>
+                        <i class="fa-solid fa-cart-shopping"></i> -->
 
                         <!-- Cart counter badge -->
                         <!-- <span
@@ -136,10 +136,10 @@
 
         <div id="mobile-links"
             class="hidden md:flex flex-col md:flex-row w-full md:w-auto space-y-3 md:space-y-0 md:space-x-6 text-white font-semibold text-sm mt-3 md:mt-0 pl-4 md:pl-0">
-            <a href="/pages/login.php" class="hover:underline py-1 md:py-0">Log In</a>
-            <a href="/pages/register.php" class="hover:underline py-1 md:py-0">Sign Up</a>
-            <a href="/pages/about_us.php" class="hover:underline py-1 md:py-0">About Us</a>
-            <a href="/pages/contact.php" class="hover:underline py-1 md:py-0">Contact Us</a>
+            <a href="./pages/login.php" class="hover:underline py-1 md:py-0">Log In</a>
+            <a href="./pages/register.php" class="hover:underline py-1 md:py-0">Sign Up</a>
+            <a href="./pages/about_us.php" class="hover:underline py-1 md:py-0">About Us</a>
+            <a href="./pages/contact.php" class="hover:underline py-1 md:py-0">Contact Us</a>
         </div>
 
         <!-- Mobile Menu Toggle Script -->

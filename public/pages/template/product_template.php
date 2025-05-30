@@ -127,17 +127,6 @@ function renderProductManagement($products)
         </div>
 
         <div>
-          <label for="add_category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
-          <select id="add_category" name="category" required
-            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fc8eac]">
-            <option value="" hidden>Choose a category</option>
-            <?php foreach ($categories as $category): ?>
-              <option value="<?= $category['idcategory'] ?>"><?= $category['name'] ?></option>
-            <?php endforeach; ?>
-          </select>
-        </div>
-
-        <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Stock</label>
           <input type="number" name="stock" required step="0.01"
             class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fc8eac]">

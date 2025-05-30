@@ -8,6 +8,15 @@ if (!isset($_GET['id'])) {
     header("Location: products.php");
     exit();
 }
+$stmt = $pdo->prepare('SELECT * FROM category');
+$stmt->execute();
+$categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$prod = $_GET['id'];
+
+$stmt1 = $pdo->prepare('SELECT category.idcategory AS idcateg FROM category INNER JOIN product on category.idcategory=product.idcategory WHERE product.idcategory=?');
+$stmt1->execute([$prod]);
+$res = $stmt1->fetch();
 
 $id = $_GET['id'];
 $errors = [];
@@ -101,7 +110,7 @@ $all_images = prepareProductImages($product);
             </a>
 
             <?php displayImageCarousel($all_images, $product['name'], $errors); ?>
-            <?php displayProductForm($product, $errors); ?>
+            <?php displayProductForm($product, $errors, $categories, $res); ?>
         </form>
     </div>
 
@@ -109,3 +118,4 @@ $all_images = prepareProductImages($product);
 </body>
 </html>
 <?php include '../includes/footer.php'; ?>
+

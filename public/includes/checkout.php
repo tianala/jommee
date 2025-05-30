@@ -11,7 +11,6 @@ $iduser = $_SESSION['iduser'];
 $selectedItems = json_decode($_POST['selected_items'], true);
 
 $ref_num = strtoupper(uniqid("REF"));
-
 $now = date('Y-m-d H:i:s');
 
 foreach ($selectedItems as $item) {
@@ -35,7 +34,9 @@ foreach ($selectedItems as $item) {
             $now
         ]);
 
-        // Remove item from cart
+        $stmt = $pdo->prepare("UPDATE product SET stock = stock - ? WHERE idproduct = ?");
+        $stmt->execute([$item['quantity'], $data['idproduct']]);
+
         $stmt = $pdo->prepare("DELETE FROM cart WHERE idcart = ? AND iduser = ?");
         $stmt->execute([$item['idcart'], $iduser]);
     }

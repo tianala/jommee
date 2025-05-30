@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body class="bg-pink-50 min-h-screen flex flex-col">
     <main class="flex-grow flex items-center justify-center px-4">
         <div class="max-w-md w-full bg-white rounded-lg shadow-lg p-8 md:p-12 text-center mt-10">
-            <h1 class="text-4xl font-bold text-pink-600 mb-6">Login to Jommee</h1>
+            <h1 class="text-4xl font-bold text-pink-600 mb-6">Log In to Jommee</h1>
 
             <?php if ($error): ?>
                 <div class="bg-red-100 text-red-700 p-3 rounded mb-6 text-left"><?= htmlspecialchars($error) ?></div>

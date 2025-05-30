@@ -14,7 +14,6 @@ if (!isset($_SESSION['iduser'])) {
 $iduser = $_SESSION['iduser'];
 $ref_num = strtoupper(uniqid("REF"));
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['idproduct']) && !empty($_POST['quantity'])) {
     $idproduct = $_POST['idproduct'];
     $quantity = $_POST['quantity'];
@@ -27,10 +26,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['idproduct']) && !emp
         $price = $product['price'];
         $name = $product['name'];
 
-        $insert = $pdo->prepare("INSERT INTO `order` (iduser, idproduct, quantity, price, created_at, name, ref_num) VALUES (?, ?, ?, ?, NOW(), ?, ?)");
+        $insert = $pdo->prepare("INSERT INTO `order` (iduser, idproduct, quantity, price, created_at, name, ref_num)
+                                 VALUES (?, ?, ?, ?, NOW(), ?, ?)");
         $success = $insert->execute([$iduser, $idproduct, $quantity, $price, $name, $ref_num]);
 
         if ($success) {
+            // Deduct quantity from product
+            $update = $pdo->prepare("UPDATE product SET stock = stock - ? WHERE idproduct = ?");
+            $update->execute([$quantity, $idproduct]);
+
             header("Location: ../pages/thank_you.php?ref=$ref_num");
             exit();
         } else {

@@ -27,6 +27,7 @@ require_once '../includes/product_functions.php';
     require_once '../includes/connect_db.php';
 
     $iduser = $_SESSION['iduser'];
+    $usertype = $_SESSION['usertype'];
     $stmt1 = $pdo->prepare("SELECT * FROM `order` WHERE iduser=?");
     $stmt1->execute([$iduser]);
     $orders = $stmt1->fetchAll(PDO::FETCH_ASSOC);
@@ -38,7 +39,7 @@ require_once '../includes/product_functions.php';
         </div>
 
         <div class="w-11/12 md:w-10/12 mx-auto">
-            <?php if ($iduser === 1): ?>
+            <?php if ($usertype === 1): ?>
                 <table class="w-full table-auto border border-gray-300 bg-white rounded">
                     <thead class="bg-pink-300 text-white">
                         <tr>
