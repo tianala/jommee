@@ -73,7 +73,7 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
     <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40 hidden">
         <div class="bg-white rounded-xl p-6 w-11/12 max-w-md shadow-xl">
             <h2 class="text-2xl font-semibold mb-4">Edit Category</h2>
-            <form id="editForm">
+            <form id="editForm" action="../includes/update_category.php">
                 <input type="hidden" id="editCategoryId" name="idcategory">
                 <div class="mb-4">
                     <label class="block text-gray-700 mb-2" for="editCategoryName">Category Name</label>
@@ -153,7 +153,7 @@ $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
         const name = $('#editCategoryName').val();
 
         // Placeholder: send to backend via AJAX
-        $.post('update_category.php', { idcategory: id, name: name }, function (response) {
+        $.post('../includes/update_category.php', { idcategory: id, name: name }, function (response) {
             if (response === 'success') {
                 location.reload(); // Or update DOM directly
             } else {
