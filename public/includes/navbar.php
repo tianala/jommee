@@ -1,7 +1,14 @@
 <?php
-session_start();
-$usertype = $_SESSION['usertype'];
-$iduser = $_SESSION['iduser'];
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+$usertype = null;
+$iduser = null;
+
+if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
+  $usertype = $_SESSION['usertype'];
+  $iduser = $_SESSION['iduser'];
+}
 
 include_once 'connect_db.php';
 $stmt = $pdo->prepare('SELECT COUNT(*) AS count FROM cart WHERE iduser=?');
@@ -44,7 +51,7 @@ $count = $stmt->fetch();
       <!-- Search Bar - Always visible -->
       <div class="flex-1 max-w-xl md:mx-6">
         <div class="relative">
-          <input type="text" placeholder="Enter your product name..."
+          <input type="text" id="search-input" placeholder="Enter your product name..."
             class="w-full border rounded-lg px-4 py-2 pl-5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300" />
           <div class="absolute right-3 top-2.5 text-gray-500">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -57,25 +64,43 @@ $count = $stmt->fetch();
       </div>
 
       <!-- Icons - Visible on all screen sizes -->
-      <div class="flex items-center ml-4 space-x-4 text-white">
-        <a href="../pages/profile.php" class="text-lg hover:text-gray-200"><i class="fa-solid fa-user"></i></a>
-        <a href="../pages/products.php" class="text-lg hover:text-gray-200 relative">
-          <i class="fa-solid fa-house"></i> </a>
-        <a href="../pages/orders.php" class="text-lg hover:text-gray-200 relative">
-          <i class="fa-solid fa-table-list"></i> 
-        <a href="../pages/cart.php" class="text-lg hover:text-gray-200 relative">
-          <i class="fa-solid fa-cart-shopping"></i>
-            
-            <!-- Cart counter badge -->
-            <span
-              class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center"><?= $count['count'] ?></span>
-          </a>
-      </div>
+      <?php if ($iduser): ?>
+        <div class="flex items-center ml-4 space-x-4 text-white">
+          <a href="../pages/profile.php" class="text-lg hover:text-gray-200"><i class="fa-solid fa-user"></i></a>
+          <a href="../pages/products.php" class="text-lg hover:text-gray-200 relative">
+            <i class="fa-solid fa-house"></i> </a>
+          <a href="../pages/orders.php" class="text-lg hover:text-gray-200 relative">
+            <i class="fa-solid fa-table-list"></i>
+            <a href="../pages/cart.php" class="text-lg hover:text-gray-200 relative">
+              <i class="fa-solid fa-cart-shopping"></i>
+
+              <!-- Cart counter badge -->
+              <span
+                class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center"><?= isset($_SESSION['iduser']) ? $count['count'] : 0 ?></span>
+            </a>
+        </div>
+      <?php endif; ?>
     </div>
 
     <div id="mobile-links"
       class="hidden md:flex flex-col md:flex-row w-full md:w-auto space-y-3 md:space-y-0 md:space-x-6 text-white font-semibold text-sm mt-3 md:mt-0 pl-4 md:pl-0">
-      <a href="../includes/logout.php" class="hover:underline py-1 md:py-0">Log Out</a>
+      <?php if ($iduser && $usertype == 0): ?>
+        <!-- Admin links -->
+        <a href="../pages/category.php" class="hover:underline py-1 md:py-0">Category</a>
+        <a href="../pages/inventory.php" class="hover:underline py-1 md:py-0">Inventory</a>
+        <a href="../pages/users.php" class="hover:underline py-1 md:py-0">Users</a>
+      <?php endif; ?>
+
+      <?php if (is_null($iduser)): ?>
+        <!-- Guest links -->
+        <a href="../pages/login.php" class="hover:underline py-1 md:py-0">Log In</a>
+        <a href="../pages/register.php" class="hover:underline py-1 md:py-0">Sign Up</a>
+      <?php elseif ($iduser): ?>
+        <!-- Authenticated user links -->
+        <a href="../includes/logout.php" class="hover:underline py-1 md:py-0">Log Out</a>
+      <?php endif; ?>
+
+      <!-- Universal links -->
       <a href="../pages/about_us.php" class="hover:underline py-1 md:py-0">About Us</a>
       <a href="../pages/contact.php" class="hover:underline py-1 md:py-0">Contact Us</a>
     </div>
@@ -94,6 +119,7 @@ $count = $stmt->fetch();
         }
       });
     </script>
+  </nav>
 </body>
 
 </html>

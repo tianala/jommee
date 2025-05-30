@@ -1,9 +1,9 @@
-<?php 
-  include_once '../includes/connect_db.php';
-  $stmt1 = $pdo->prepare("SELECT * FROM category");
-  $stmt1->execute();
-  $categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
-  function renderProductManagement($products)
+<?php
+include_once '../includes/connect_db.php';
+$stmt1 = $pdo->prepare("SELECT * FROM category");
+$stmt1->execute();
+$categories = $stmt1->fetchAll(PDO::FETCH_ASSOC);
+function renderProductManagement($products)
 { ?>
   <!DOCTYPE html>
   <html lang="en">
@@ -15,11 +15,12 @@
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> -->
     <link href="/public/assets/css/output.css" rel="stylesheet">
     <link rel="icon" href="../assets/logo/logo1.ico" type="image/x-icon">
-    <link rel="stylesheet" href="../assets/js/jquery-3.7.1.min.js">
     <link rel="stylesheet" href="../assets/css/output.css">
     <link rel="stylesheet" href="../assets/css/fontawesome/all.min.css">
     <link rel="stylesheet" href="../assets/css/fontawesome/fontawesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/lozad"></script>
+    <script src="../assets/js/jquery-3.7.1.min.js"></script>
+
 
   </head>
   <div class="w-full">
@@ -35,7 +36,7 @@
       </button>
     </div>
 
-    <div
+    <div id="product-listing"
       class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-1 md:gap-2 lg:gap-4 sm:mb-5 md:mb-5">
       <?php foreach ($products as $row): ?>
         <div
@@ -104,6 +105,10 @@
       <?php endforeach; ?>
     </div>
 
+    <div id="productResults" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
+      <!-- Search results will be dynamically injected here -->
+    </div>
+
     <!-- Add Product Modal -->
     <dialog id="addModal" class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
       <form method="POST" class="space-y-4" enctype="multipart/form-data">
@@ -126,8 +131,8 @@
           <select id="add_category" name="category" required
             class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fc8eac]">
             <option value="" hidden>Choose a category</option>
-            <?php foreach ($categories AS $category): ?>
-              <option value="<?=$category['idcategory']?>"><?=$category['name']?></option>
+            <?php foreach ($categories as $category): ?>
+              <option value="<?= $category['idcategory'] ?>"><?= $category['name'] ?></option>
             <?php endforeach; ?>
           </select>
         </div>
@@ -357,7 +362,26 @@
       $(document).ready(function () {
         const observer = lozad();
         observer.observe();
-      })
+
+        $('#search-input').on('keyup', function () {
+          let query = $(this).val();
+          if (query.length >= 2) { // Only search if input length ≥ 2
+            console.log("Sending query:", query); 
+            $.ajax({
+              url: 'includes/search_products.php',
+              method: 'POST',
+              data: { query: query },
+              success: function (data) {
+                console.log('success');
+                $('#product-listing').addClass('hidden');
+                $('#productResults').html(data); // You can format JSON if returning as JSON
+              }
+            });
+          } else {
+            $('#productResults').html('');
+          }
+        });
+      });
     </script>
   </body>
 
